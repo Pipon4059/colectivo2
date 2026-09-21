@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El colectivo | Registro</title>
+    <link rel="stylesheet" href="css/styles.css?v=7">
+</head>
+<body>
+    <main class="main-login signup">
+        <section class="login-right">
+            <div>
+                <img src="img/elcolectivo-logo.png" alt="El colectivo Logo" class="logo">
+                <h2>Bienvenid@ a el colectivo</h2>
+                <p style="max-width: 500px; color: #d4d4d4;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium fuga impedit eum sed facere. Dolorum perferendis architecto veritatis quasi vel.</p>
+                <br><p class="subtitle">Creá una cuenta para continuar</p>
+            </div>
+        </section>
+        <section class="login-form">
+            <div class="login-content">
+                <h2><span class="color-2">El</span>Colectivo</h2>
+                <p id="mensaje-registro" class="mensaje"></p>
+                <p>Ya tienes una cuenta? <a href="login.html">Inicia sesión ahora!</a></p>
+                <form id="form-registro" action="backend/signup.php" method="POST" novalidate>
+                    <input type="text" name="nombre" placeholder="Nombre" id="nombre" required>
+                    <input type="email" name="email" placeholder="Correo electronico" id="email" required>
+                    <input type="tel" name="telefono" placeholder="Telefono" id="telefono" inputmode="numeric">
+                    <input type="password" name="contrasena" placeholder="Contraseña" id="contrasena" minlength="6" required>
+                    <div class="signup-row">
+                        <input type="text" name="calle" placeholder="Calle" id="calle">
+                        <input type="text" name="numero" placeholder="Numero" id="numero">
+                        <input type="text" name="depto" placeholder="Depto" id="depto">
+                    </div>
+                    <button type="submit" class="login-btn">Crear cuenta</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    <script src="js/signup.js?v=2"></script>
+</body>
+</html>

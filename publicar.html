@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El colectivo | Publicar producto</title>
+    <link rel="stylesheet" href="css/styles.css?v=9">
+</head>
+<body>
+    <header class="bg-primary flex header">
+        <div class="width header-in">
+            <a href="index.php">
+                <img width="100" src="img/elcolectivo-logo.png" alt="El colectivo">
+            </a>
+            <a class="logout-nav" href="index.php">Volver al inicio</a>
+        </div>
+    </header>
+
+    <main class="publicar-container">
+        <section class="publicar-formulario">
+            <h1>Publicar un producto</h1>
+            <p>Completa los datos del producto que quieres vender.</p>
+
+            <p id="mensaje-publicar" class="mensaje mensaje-error"></p>
+
+            <form action="backend/publicar.php" method="POST" enctype="multipart/form-data">
+                <label for="nombre">Nombre del producto</label>
+                <input type="text" name="nombre" id="nombre" required>
+
+                <label for="descripcion">Descripcion</label>
+                <textarea name="descripcion" id="descripcion" rows="5" required></textarea>
+
+                <label for="precio">Precio</label>
+                <input type="number" name="precio" id="precio" min="1" step="0.01" required>
+
+                <label for="categoria">Categoria</label>
+                <select name="categoria" id="categoria" required>
+                    <option value="">Selecciona una categoria</option>
+                    <option value="1">Camisetas</option>
+                    <option value="2">Pelotas</option>
+                    <option value="3">Figuritas</option>
+                    <option value="4">Botines</option>
+                    <option value="5">Otros</option>
+                </select>
+
+                <label for="imagen">Imagen del producto</label>
+                <input type="file" name="imagen" id="imagen" accept="image/jpeg,image/png,image/webp" required>
+
+                <button type="submit" class="login-btn">Publicar producto</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        const parametros = new URLSearchParams(window.location.search);
+        const mensaje = document.getElementById('mensaje-publicar');
+
+        if (parametros.get('error') == 'faltan-datos') {
+            mensaje.textContent = 'Completa todos los campos.';
+        }
+
+        if (parametros.get('error') == 'precio-invalido') {
+            mensaje.textContent = 'El precio debe ser un numero mayor que cero.';
+        }
+
+        if (parametros.get('error') == 'imagen-invalida') {
+            mensaje.textContent = 'Selecciona una imagen JPG, PNG o WEBP.';
+        }
+    </script>
+</body>
+</html>

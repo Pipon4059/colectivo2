@@ -1,0 +1,535 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'manrope';
+  src: url('../fonts/manrope-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'clashDisplay';
+  src: url('../fonts/ClashDisplay-Semibold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+body {
+    /* background-color: #06081b; */
+    font-family: 'manrope';
+    color:#111;
+}
+
+.bg-primary {
+    background-color: #06081b;
+}
+
+.flex {
+    display: flex;
+}
+
+/*Header*/
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-in {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.width {
+    width: min(1180px, calc(100% - 40px));
+}
+
+h1, h2 {
+    font-family: 'clashDisplay';
+    font-style: italic;
+}
+
+/*Login*/
+
+.color-2 {
+    color: #f8c535;
+}
+
+.login-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50vw;
+    height: 100vh;
+    background-color: #06081b;
+    color: #fff;
+}
+
+.login-right h2 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: #f8c535;
+}
+
+.login-right .subtitle {
+    color: #d4d4d4;
+}
+
+.login-form {
+    display: flex;
+    background-color: #fff;
+    color: #111;
+    height: 100vh;
+    width: 50vw;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.login-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 70%;
+}
+
+.login-content h2 {
+    font-size: 36px;
+}
+
+.login-content p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.login-content a {
+    display: block;
+    color: #f8c535;
+    text-decoration: underline;
+}
+
+.login-content .mensaje {
+    display: none;
+    padding: 10px;
+    margin: 15px 0;
+}
+
+.login-content .mensaje-error {
+    display: block;
+    background-color: #ffdada;
+    color: #a00000;
+}
+
+.login-content .mensaje-exito {
+    display: block;
+    background-color: #d7f8df;
+    color: #146b2a;
+}
+
+.login-form form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-bottom: 2px solid #b4b4b4;
+    outline: none;
+}
+
+.login-form input:focus {
+    border-bottom: 2px solid #06081b;
+    background-color: #f0f0f0;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0;
+    border: none;
+    background-color: #06081b;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.signup-row {
+    display: flex;
+    gap: 16px;
+}
+
+.signup .login-content p {
+    margin-bottom: 16px;
+}
+
+.signup .login-form input {
+    margin: 6px 0;
+}
+
+.logo {
+    width: 400px;
+    height: auto;
+}
+
+.main-login {
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.login-nav, .signup-nav {
+    width: 120px;
+    padding: 10px 15px;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.login-nav {
+    background-color: #f8c535;
+}
+
+.signup-nav {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+.usuario-menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.usuario-nav {
+    color: white;
+    font-weight: bold;
+}
+
+.logout-nav {
+    display: inline-block;
+    background-color: #f8c535;
+    color: #06081b;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.publicar-nav {
+    color: #f8c535;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.mensaje-publicado {
+    background-color: #d7f8df;
+    color: #146b2a;
+    padding: 12px;
+    margin: 20px auto 0;
+}
+
+.publicar-container {
+    min-height: calc(100vh - 90px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: #f4f4f4;
+}
+
+.publicar-formulario {
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
+    background-color: white;
+}
+
+.publicar-formulario h1 {
+    margin-bottom: 10px;
+}
+
+.publicar-formulario form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+
+.publicar-formulario label {
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+.publicar-formulario input,
+.publicar-formulario textarea,
+.publicar-formulario select {
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid #b4b4b4;
+    font: inherit;
+}
+
+.publicar-formulario .mensaje {
+    display: none;
+    padding: 10px;
+    margin-top: 15px;
+}
+
+.publicar-formulario .mensaje-error {
+    background-color: #ffdada;
+    color: #a00000;
+}
+
+.publicar-formulario .mensaje-error:not(:empty) {
+    display: block;
+}
+
+.admin-panel {
+    display: none;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #06081b;
+}
+
+.admin-contenido {
+    width: 100%;
+    max-width: 600px;
+    padding: 35px;
+    background-color: white;
+}
+
+.admin-contenido h1,
+.admin-contenido p {
+    margin-bottom: 15px;
+}
+
+.admin-opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.admin-opciones a {
+    padding: 12px;
+    background-color: #f8c535;
+    color: #06081b;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.admin-opciones .admin-salir {
+    background-color: #06081b;
+    color: white;
+}
+
+.market-inicio {
+    display: flex;
+    justify-content: center;
+}
+
+.main-card {
+    display: flex;
+    background-color: #06081b;
+    color: #fff;
+    margin-block: 3rem;
+    flex-wrap: wrap;
+    padding: 3rem 3rem 2rem 3rem;
+}
+
+.main-card h1 {
+    font-size: 5rem;
+}
+
+.catalog-btn {
+    background-color: #f8c535;
+    border: none;
+    width: 100%;
+    padding: 20px 0;
+    margin-top: 3rem;
+    cursor: pointer;
+}
+
+.categorias-container  {
+    display: flex;
+    justify-content: center;
+}
+
+.categorias {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.categorias button {
+    flex: 1;
+    background: #ffffff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.categorias button:hover,
+.categorias button.activo {
+    background: #f8c535;
+    color: #fff;
+}
+
+.productos-container {
+    display: flex;
+    justify-content: center;
+    margin-block: 3rem;
+}
+
+.productos {
+    display: flex;
+    /* justify-content: space-between; */
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.productos-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 300px;
+    padding: 10px;
+}
+
+.productos-card img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+}
+
+.vendedor {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 5px;
+}
+
+
+.precio {
+    font-size: 18px;
+    font-weight: bold;
+    color: #35f880;
+}
+
+
+
+
+/* .categorias button {
+    background: #f0f0f0;
+    border: none;
+    padding: 20px;
+} */
+
+@media (max-width: 700px) {
+    .width {
+        width: calc(100% - 30px);
+    }
+
+    .header-in {
+        padding: 10px 0;
+    }
+
+    .header img {
+        width: 75px;
+    }
+
+    .header-in > div:last-child {
+        display: flex;
+        gap: 6px;
+    }
+
+    .login-nav, .signup-nav {
+        width: auto;
+        padding: 8px;
+    }
+
+    .usuario-menu {
+        gap: 8px;
+        font-size: 14px;
+    }
+
+    .logout-nav {
+        padding: 8px;
+    }
+
+    .main-card {
+        margin-block: 2rem;
+        padding: 2rem 1.5rem;
+    }
+
+    .main-card h1 {
+        font-size: 2.7rem;
+    }
+
+    .catalog-btn {
+        margin-top: 2rem;
+    }
+
+    .categorias {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .categorias button {
+        flex: 1 1 40%;
+    }
+
+    .productos {
+        justify-content: center;
+    }
+
+    .productos-card {
+        width: 100%;
+        max-width: 340px;
+    }
+
+    .main-login {
+        height: auto;
+        flex-direction: column;
+    }
+
+    .login-right, .login-form {
+        width: 100%;
+        height: auto;
+        padding: 40px 20px;
+    }
+
+    .login-right .logo {
+        width: 220px;
+    }
+
+    .login-right h2 {
+        font-size: 32px;
+    }
+
+    .login-content {
+        width: 100%;
+    }
+
+    .signup-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}

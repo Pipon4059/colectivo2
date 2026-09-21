@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El colectivo | Login</title>
+    <link rel="stylesheet" href="css/styles.css?v=10">
+</head>
+<body>
+    <main class="main-login">
+        <section class="login-right">
+            <div>
+                <img src="img/elcolectivo-logo.png" alt="El colectivo Logo" class="logo">
+                <h2>Bienvenid@ a el colectivo</h2>
+                <p style="max-width: 500px; color: #d4d4d4;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium fuga impedit eum sed facere. Dolorum perferendis architecto veritatis quasi vel.</p>
+                <br><p class="subtitle">Inicia sesión para continuar</p>
+            </div>
+        </section>
+        <section class="login-form">
+            <div class="login-content">
+                <h2><span class="color-2">El</span>Colectivo</h2>
+                <p id="mensaje-login" class="mensaje"></p>
+                <p>No tienes una cuenta todavia? <a href="signup.html">Crea una cuenta ahora!</a></p>
+                <form action="backend/login.php" method="POST">
+                    <input type="email" name="email" placeholder="Correo electronico" id="email" required>
+                    <input type="password" name="password" placeholder="Contraseña" id="password" required>
+                    <button type="submit" class="login-btn">Iniciar sesion</button>
+                </form>
+                <p><a href="admin-login.html">Acceso para administradores</a></p>
+            </div>
+        </section>
+    </main>
+    <script src="js/login.js"></script>
+</body>
+</html>
