@@ -8,6 +8,7 @@ $contrasena = $_POST['contrasena'] ?? '';
 $calle = trim($_POST['calle'] ?? '');
 $numero = trim($_POST['numero'] ?? '');
 $depto = trim($_POST['depto'] ?? '');
+$tipo = $_POST['tipo'] ?? 'ambos';
 
 if ($nombre == '' || $email == '' || $contrasena == '') {
     header('Location: ../signup.html?error=faltan-datos');
@@ -27,6 +28,10 @@ if (strlen($contrasena) < 6) {
 if ($telefono != '' && !ctype_digit($telefono)) {
     header('Location: ../signup.html?error=telefono-invalido');
     exit;
+}
+
+if ($tipo != 'comprador' && $tipo != 'vendedor' && $tipo != 'ambos') {
+    $tipo = 'ambos';
 }
 
 $pdo = db();
@@ -57,8 +62,8 @@ $guardar->execute([
 
 $idUsuario = $pdo->lastInsertId();
 
-$guardarCliente = $pdo->prepare("INSERT INTO clientes (id_cop, fecha_ingreso) VALUES (?, CURDATE())");
-$guardarCliente->execute([$idUsuario]);
+$guardarCliente = $pdo->prepare("INSERT INTO clientes (id_cop, fecha_ingreso, tipo) VALUES (?, CURDATE(), ?)");
+$guardarCliente->execute([$idUsuario, $tipo]);
 
 header('Location: ../login.html?registro=correcto');
 exit;

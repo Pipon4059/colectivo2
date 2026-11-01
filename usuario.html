@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El colectivo | Mi cuenta</title>
+    <link rel="stylesheet" href="css/styles.css?v=18">
+</head>
+<body class="usuario-body">
+    <main id="panel-usuario" class="usuario-dashboard">
+        <header class="usuario-header">
+            <a href="index.html"><img src="img/elcolectivo-logo.png" alt="El colectivo"></a>
+            <nav class="usuario-nav-links">
+                <a href="index.html">Ver catalogo</a>
+                <a href="publicar.html">Publicar producto</a>
+                <a class="usuario-salir" href="backend/logout.php">Cerrar sesion</a>
+            </nav>
+        </header>
+
+        <div class="usuario-principal">
+            <section class="usuario-bienvenida">
+                <div>
+                    <p class="usuario-etiqueta">Mi cuenta</p>
+                    <h1>Hola, <span id="usuario-nombre-titulo"></span></h1>
+                    <p>Tus datos y publicaciones.</p>
+                </div>
+                <div class="usuario-resumen">
+                    <strong id="cantidad-productos">0</strong>
+                    <span>productos publicados</span>
+                    <span>Reputacion: <b id="usuario-reputacion">0</b> / 5</span>
+                </div>
+            </section>
+
+            <p id="mensaje-usuario" class="usuario-mensaje"></p>
+
+            <section class="usuario-tarjeta">
+                <div class="usuario-titulo-seccion">
+                    <p class="usuario-etiqueta">Perfil</p>
+                    <h2>Mis datos</h2>
+                </div>
+
+                <form id="form-perfil" class="usuario-formulario">
+                    <div>
+                        <label for="perfil-nombre">Nombre</label>
+                        <input type="text" name="nombre" id="perfil-nombre" required>
+                    </div>
+                    <div>
+                        <label for="perfil-email">Correo</label>
+                        <input type="email" name="email" id="perfil-email" required>
+                    </div>
+                    <div>
+                        <label for="perfil-telefono">Telefono</label>
+                        <input type="tel" name="telefono" id="perfil-telefono" inputmode="numeric">
+                    </div>
+                    <div>
+                        <label for="perfil-calle">Calle</label>
+                        <input type="text" name="calle" id="perfil-calle">
+                    </div>
+                    <div>
+                        <label for="perfil-numero">Numero</label>
+                        <input type="text" name="numero" id="perfil-numero">
+                    </div>
+                    <div>
+                        <label for="perfil-depto">Departamento</label>
+                        <input type="text" name="depto" id="perfil-depto">
+                    </div>
+                    <div>
+                        <label for="perfil-tipo">Tipo de cuenta</label>
+                        <select name="tipo" id="perfil-tipo">
+                            <option value="ambos">Comprador y vendedor</option>
+                            <option value="comprador">Comprador</option>
+                            <option value="vendedor">Vendedor</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="perfil-contrasena">Nueva contraseña</label>
+                        <input type="password" name="contrasena" id="perfil-contrasena" minlength="6">
+                        <small>Dejala vacia para mantener la contraseña actual.</small>
+                    </div>
+                    <div class="usuario-form-botones">
+                        <button type="submit" class="usuario-btn-primario">Guardar cambios</button>
+                    </div>
+                </form>
+            </section>
+
+            <section id="editar-producto" class="usuario-tarjeta usuario-editar-producto">
+                <div class="usuario-titulo-seccion">
+                    <p class="usuario-etiqueta">Publicacion</p>
+                    <h2>Editar producto</h2>
+                </div>
+
+                <form id="form-producto" class="usuario-formulario" enctype="multipart/form-data">
+                    <input type="hidden" name="id" id="producto-id">
+                    <div>
+                        <label for="producto-nombre">Nombre</label>
+                        <input type="text" name="nombre" id="producto-nombre" required>
+                    </div>
+                    <div>
+                        <label for="producto-precio">Precio</label>
+                        <input type="number" name="precio" id="producto-precio" min="1" step="0.01" required>
+                    </div>
+                    <div class="usuario-campo-completo">
+                        <label for="producto-descripcion">Descripcion</label>
+                        <textarea name="descripcion" id="producto-descripcion" rows="4" required></textarea>
+                    </div>
+                    <div>
+                        <label for="producto-categoria">Categoria</label>
+                        <select name="categoria" id="producto-categoria" required>
+                            <option value="1">Camisetas</option>
+                            <option value="2">Pelotas</option>
+                            <option value="3">Figuritas</option>
+                            <option value="4">Botines</option>
+                            <option value="5">Otros</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="producto-estado">Estado de conservacion</label>
+                        <select name="estado_conservacion" id="producto-estado" required>
+                            <option value="Nuevo">Nuevo</option>
+                            <option value="Muy bueno">Muy bueno</option>
+                            <option value="Bueno">Bueno</option>
+                            <option value="Regular">Regular</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="producto-certificado">Certificado</label>
+                        <input type="text" name="certificado" id="producto-certificado" placeholder="Opcional">
+                    </div>
+                    <div>
+                        <label for="producto-imagen">Cambiar imagen</label>
+                        <input type="file" name="imagen" id="producto-imagen" accept="image/jpeg,image/png,image/webp">
+                        <small>Es opcional. Si no eliges otra, se mantiene la actual.</small>
+                    </div>
+                    <div class="usuario-form-botones">
+                        <button type="submit" class="usuario-btn-primario">Actualizar producto</button>
+                        <button type="button" id="cancelar-producto" class="usuario-btn-secundario">Cancelar</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="usuario-tarjeta">
+                <div class="usuario-publicaciones-titulo">
+                    <div>
+                        <p class="usuario-etiqueta">Publicaciones</p>
+                        <h2>Mis productos</h2>
+                    </div>
+                    <a href="publicar.html" class="usuario-btn-publicar">+ Nueva publicacion</a>
+                </div>
+                <div id="mis-productos" class="usuario-productos"></div>
+            </section>
+
+            <section class="usuario-tarjeta">
+                <div class="usuario-titulo-seccion"><p class="usuario-etiqueta">Actividad</p><h2>Notificaciones</h2></div>
+                <div id="usuario-notificaciones" class="usuario-notificaciones"></div>
+            </section>
+
+            <section class="usuario-tarjeta">
+                <div class="usuario-titulo-seccion"><p class="usuario-etiqueta">Historial</p><h2>Mis compras</h2></div>
+                <div id="usuario-compras" class="usuario-ordenes"></div>
+            </section>
+
+            <section class="usuario-tarjeta">
+                <div class="usuario-titulo-seccion"><p class="usuario-etiqueta">Historial</p><h2>Mis ventas</h2></div>
+                <div id="usuario-ventas" class="usuario-ordenes"></div>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/usuario.js?v=4"></script>
+</body>
+</html>

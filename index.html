@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El colectivo | Inicio</title>
+    <link rel="stylesheet" href="css/styles.css?v=19">
+</head>
+<body>
+    <main>
+        <header class="bg-primary flex header">
+            <div class="width header-in">
+                <div>
+                    <a href="index.html">
+                        <img width="100" src="img/elcolectivo-logo.png" alt="El colectivo">
+                    </a>
+                </div>
+
+                <div id="menu-invitado">
+                    <button class="login-nav">Ingresar</button>
+                    <button class="signup-nav">Crear cuenta</button>
+                </div>
+
+                <div id="menu-usuario" class="usuario-menu">
+                    <a class="navbar-publicar" href="publicar.html">+ Publicar</a>
+
+                    <div class="usuario-desplegable">
+                        <button type="button" id="boton-menu-usuario" class="usuario-menu-boton">
+                            <span id="nombre-usuario"></span>
+                            <span class="usuario-flecha">▼</span>
+                        </button>
+
+                        <div id="opciones-usuario" class="usuario-opciones">
+                            <a href="usuario.html">Mi cuenta</a>
+                            <a id="enlace-admin" href="admin.html">Panel admin</a>
+                            <a class="usuario-cerrar" href="backend/logout.php">Cerrar sesion</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div id="mensaje-publicado" class="mensaje-publicado width">
+            Producto publicado correctamente.
+        </div>
+
+        <section class="market-inicio">
+            <div class="main-card width">
+                <h1>Tu pasion tambien se colecciona</h1>
+                <div style="width: 100%;">
+                    <p>Encontra camisetas, pelotas, figuritas y recuerdos deportivos publicados por otros coleccionistas.</p>
+                    <button class="catalog-btn">Explorar catalogo</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="categorias-container">
+            <div class="filtros-panel width">
+                <div class="filtros-encabezado">
+                    <h2>Buscar en el catalogo</h2>
+                </div>
+
+                <div class="filtros">
+                    <input type="text" id="filtro-texto" placeholder="Nombre del producto">
+                    <input type="number" id="filtro-minimo" placeholder="Precio minimo" min="0">
+                    <input type="number" id="filtro-maximo" placeholder="Precio maximo" min="0">
+                    <select id="filtro-estado">
+                        <option value="todos">Todos los estados</option>
+                        <option value="Nuevo">Nuevo</option>
+                        <option value="Muy bueno">Muy bueno</option>
+                        <option value="Bueno">Bueno</option>
+                        <option value="Regular">Regular</option>
+                    </select>
+                </div>
+
+                <div class="categorias">
+                    <button class="activo" data-categoria="todos">Todos</button>
+                    <button data-categoria="1">Camisetas</button>
+                    <button data-categoria="2">Pelotas</button>
+                    <button data-categoria="3">Figuritas</button>
+                    <button data-categoria="4">Botines</button>
+                    <button data-categoria="5">Otros</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="productos-container">
+            <div id="catalogo" class="productos width"></div>
+        </section>
+    </main>
+
+    <script src="js/index.js?v=4"></script>
+</body>
+</html>

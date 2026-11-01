@@ -5,12 +5,18 @@ USE elcolectivo;
 
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS imagenes;
+DROP TABLE IF EXISTS auditoria;
+DROP TABLE IF EXISTS calificaciones;
+DROP TABLE IF EXISTS notificaciones;
+DROP TABLE IF EXISTS disputas;
+DROP TABLE IF EXISTS verificaciones;
 DROP TABLE IF EXISTS detalle_orden;
 DROP TABLE IF EXISTS ordenes;
 DROP TABLE IF EXISTS productos;
 DROP TABLE IF EXISTS categorias;
 DROP TABLE IF EXISTS publicaciones;
 DROP TABLE IF EXISTS administradores;
+DROP TABLE IF EXISTS intermediarios;
 DROP TABLE IF EXISTS clientes;
 DROP TABLE IF EXISTS usuarios;
 SET FOREIGN_KEY_CHECKS = 1;
@@ -23,7 +29,8 @@ CREATE TABLE usuarios (
     email VARCHAR(150) NOT NULL UNIQUE,
     nombre VARCHAR(100) NOT NULL,
     telefono VARCHAR(30) NULL,
-    contrasena VARCHAR(255) NOT NULL
+    contrasena VARCHAR(255) NOT NULL,
+    activo TINYINT NOT NULL DEFAULT 1
 ) ENGINE=InnoDB;
 
 CREATE TABLE administradores (
@@ -36,7 +43,14 @@ CREATE TABLE administradores (
 CREATE TABLE clientes (
     id_cop INT UNSIGNED PRIMARY KEY,
     fecha_ingreso DATE NOT NULL,
+    tipo ENUM('comprador', 'vendedor', 'ambos') NOT NULL DEFAULT 'ambos',
     CONSTRAINT fk_cliente_usuario FOREIGN KEY (id_cop)
+        REFERENCES usuarios(id_cop) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE intermediarios (
+    id_cop INT UNSIGNED PRIMARY KEY,
+    CONSTRAINT fk_intermediario_usuario FOREIGN KEY (id_cop)
         REFERENCES usuarios(id_cop) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
@@ -61,6 +75,9 @@ CREATE TABLE productos (
     precio DECIMAL(10,2) UNSIGNED NOT NULL,
     id_publi INT UNSIGNED NOT NULL,
     id_categoria INT UNSIGNED NOT NULL,
+    estado_conservacion VARCHAR(50) NOT NULL DEFAULT 'Bueno',
+    certificado VARCHAR(150) NULL,
+    disponible TINYINT NOT NULL DEFAULT 1,
     CONSTRAINT fk_producto_publicacion FOREIGN KEY (id_publi)
         REFERENCES publicaciones(id_publi) ON DELETE CASCADE,
     CONSTRAINT fk_producto_categoria FOREIGN KEY (id_categoria)
@@ -77,11 +94,72 @@ CREATE TABLE imagenes (
 
 CREATE TABLE ordenes (
     id_orden INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    estado ENUM('pendiente', 'confirmada', 'cancelada') NOT NULL DEFAULT 'pendiente',
+    estado ENUM('pagado', 'enviado', 'en_verificacion', 'verificado', 'liberado',
+        'en_disputa', 'reembolsado', 'cancelado') NOT NULL DEFAULT 'pagado',
     fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     id_cop INT UNSIGNED NOT NULL,
+    direccion VARCHAR(200) NOT NULL,
+    medio_pago VARCHAR(30) NOT NULL,
+    codigo_seguimiento VARCHAR(100) NULL,
     CONSTRAINT fk_orden_cliente FOREIGN KEY (id_cop)
         REFERENCES clientes(id_cop)
+) ENGINE=InnoDB;
+
+CREATE TABLE verificaciones (
+    id_verificacion INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id_orden INT UNSIGNED NOT NULL,
+    id_intermediario INT UNSIGNED NOT NULL,
+    resultado ENUM('aprobado', 'rechazado') NOT NULL,
+    observacion VARCHAR(500) NULL,
+    fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_verificacion_orden FOREIGN KEY (id_orden)
+        REFERENCES ordenes(id_orden) ON DELETE CASCADE,
+    CONSTRAINT fk_verificacion_intermediario FOREIGN KEY (id_intermediario)
+        REFERENCES intermediarios(id_cop)
+) ENGINE=InnoDB;
+
+CREATE TABLE disputas (
+    id_disputa INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id_orden INT UNSIGNED NOT NULL,
+    motivo VARCHAR(500) NOT NULL,
+    estado ENUM('abierta', 'resuelta') NOT NULL DEFAULT 'abierta',
+    resolucion VARCHAR(500) NULL,
+    fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_disputa_orden FOREIGN KEY (id_orden)
+        REFERENCES ordenes(id_orden) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE notificaciones (
+    id_notificacion INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id_cop INT UNSIGNED NOT NULL,
+    mensaje VARCHAR(255) NOT NULL,
+    fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    leida TINYINT NOT NULL DEFAULT 0,
+    CONSTRAINT fk_notificacion_usuario FOREIGN KEY (id_cop)
+        REFERENCES usuarios(id_cop) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE calificaciones (
+    id_calificacion INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id_orden INT UNSIGNED NOT NULL,
+    id_autor INT UNSIGNED NOT NULL,
+    id_calificado INT UNSIGNED NOT NULL,
+    puntaje TINYINT UNSIGNED NOT NULL,
+    comentario VARCHAR(300) NULL,
+    UNIQUE KEY unica_calificacion (id_orden, id_autor),
+    CONSTRAINT fk_calificacion_orden FOREIGN KEY (id_orden)
+        REFERENCES ordenes(id_orden) ON DELETE CASCADE,
+    CONSTRAINT fk_calificacion_autor FOREIGN KEY (id_autor)
+        REFERENCES usuarios(id_cop),
+    CONSTRAINT fk_calificacion_usuario FOREIGN KEY (id_calificado)
+        REFERENCES usuarios(id_cop)
+) ENGINE=InnoDB;
+
+CREATE TABLE auditoria (
+    id_auditoria INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id_cop INT UNSIGNED NULL,
+    accion VARCHAR(150) NOT NULL,
+    fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
 CREATE TABLE detalle_orden (
@@ -100,6 +178,11 @@ INSERT INTO usuarios (email, nombre, telefono, contrasena)
 VALUES ('admin@elcolectivo.local', 'Administrador', '099000000',
         '$2y$10$GKdBwGx.ncdLXNiTKES31uRg8gI9IM6mYXS70lb3Zz/pNLcvhLmmy');
 INSERT INTO administradores (id_cop, nivel) VALUES (LAST_INSERT_ID(), 1);
+
+INSERT INTO usuarios (email, nombre, telefono, contrasena)
+VALUES ('intermediario@elcolectivo.local', 'Intermediario Demo', '099222333',
+        '$2y$10$GKdBwGx.ncdLXNiTKES31uRg8gI9IM6mYXS70lb3Zz/pNLcvhLmmy');
+INSERT INTO intermediarios (id_cop) VALUES (LAST_INSERT_ID());
 
 INSERT INTO categorias (nombre) VALUES
 ('Camisetas'), ('Pelotas'), ('Figuritas'), ('Botines'), ('Otros');
@@ -123,3 +206,6 @@ INSERT INTO publicaciones (descripcion, id_cop)
 VALUES ('Album deportivo completo.', @demo_id);
 INSERT INTO productos (descripcion, nombre, precio, id_publi, id_categoria)
 VALUES ('Album con todas las figuritas del Mundial 2014.', 'Album Mundial 2014', 1800, LAST_INSERT_ID(), 3);
+
+CREATE USER IF NOT EXISTS 'colectivo_app'@'127.0.0.1' IDENTIFIED BY 'colectivo123';
+GRANT SELECT, INSERT, UPDATE, DELETE ON elcolectivo.* TO 'colectivo_app'@'127.0.0.1';

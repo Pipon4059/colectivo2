@@ -4,23 +4,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El colectivo | Panel de administracion</title>
-    <link rel="stylesheet" href="css/styles.css?v=10">
+    <link rel="stylesheet" href="css/styles.css?v=18">
 </head>
-<body>
-    <main id="panel-admin" class="admin-panel">
-        <section class="admin-contenido">
-            <h1>Panel de administracion</h1>
-            <p>Bienvenido, <strong id="nombre-admin"></strong>.</p>
-            <p>La sesion de administrador se inicio correctamente.</p>
+<body class="admin-body">
+    <main id="panel-admin" class="admin-dashboard">
+        <header class="admin-header">
+            <a href="index.html">
+                <img src="img/elcolectivo-logo.png" alt="El colectivo">
+            </a>
 
-            <div class="admin-opciones">
-                <a href="index.php">Ver pagina principal</a>
-                <a href="publicar.html">Publicar un producto</a>
+            <nav class="admin-nav">
+                <a href="index.html">Ver sitio</a>
+                <a href="publicar.html">Publicar producto</a>
                 <a class="admin-salir" href="backend/admin-logout.php">Cerrar sesion</a>
-            </div>
-        </section>
+            </nav>
+        </header>
+
+        <div class="admin-principal">
+            <section class="admin-bienvenida">
+                <div>
+                    <p class="admin-etiqueta">Administracion</p>
+                    <h1>Hola, <span id="nombre-admin"></span></h1>
+                    <p>Gestion de usuarios, productos y ordenes.</p>
+                </div>
+            </section>
+
+            <p id="mensaje-admin-panel" class="admin-mensaje"></p>
+
+            <section class="admin-estadisticas">
+                <article><span id="total-clientes">0</span><p>Clientes</p></article>
+                <article><span id="total-productos">0</span><p>Productos</p></article>
+                <article><span id="total-publicaciones">0</span><p>Publicaciones</p></article>
+                <article><span id="total-ordenes">0</span><p>Ordenes</p></article>
+            </section>
+
+            <section class="admin-tarjeta">
+                <div class="admin-titulo-seccion">
+                    <div>
+                        <p class="admin-etiqueta">Clientes</p>
+                        <h2 id="titulo-form-cliente">Agregar cliente</h2>
+                    </div>
+                </div>
+
+                <form id="form-cliente" class="admin-formulario">
+                    <input type="hidden" name="id" id="cliente-id">
+                    <div>
+                        <label for="cliente-nombre">Nombre</label>
+                        <input type="text" name="nombre" id="cliente-nombre" required>
+                    </div>
+                    <div>
+                        <label for="cliente-email">Correo</label>
+                        <input type="email" name="email" id="cliente-email" required>
+                    </div>
+                    <div>
+                        <label for="cliente-telefono">Telefono</label>
+                        <input type="tel" name="telefono" id="cliente-telefono" inputmode="numeric">
+                    </div>
+                    <div>
+                        <label for="cliente-contrasena">Contraseña</label>
+                        <input type="password" name="contrasena" id="cliente-contrasena" minlength="6">
+                        <small id="ayuda-contrasena">Minimo 6 caracteres.</small>
+                    </div>
+                    <div>
+                        <label for="cliente-tipo">Tipo de cliente</label>
+                        <select name="tipo" id="cliente-tipo">
+                            <option value="ambos">Comprador y vendedor</option>
+                            <option value="comprador">Comprador</option>
+                            <option value="vendedor">Vendedor</option>
+                            <option value="intermediario">Intermediario</option>
+                        </select>
+                    </div>
+                    <div class="admin-form-botones">
+                        <button type="submit" class="admin-btn-primario">Guardar cliente</button>
+                        <button type="button" id="cancelar-edicion" class="admin-btn-secundario">Cancelar</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="admin-tarjeta">
+                <div class="admin-titulo-seccion">
+                    <div><p class="admin-etiqueta">Gestion</p><h2>Clientes registrados</h2></div>
+                </div>
+                <div class="admin-tabla-contenedor">
+                    <table class="admin-tabla">
+                        <thead>
+                            <tr><th>Nombre</th><th>Correo</th><th>Tipo</th><th>Estado</th><th>Publicaciones</th><th>Acciones</th></tr>
+                        </thead>
+                        <tbody id="lista-clientes"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="admin-tarjeta">
+                <div class="admin-titulo-seccion"><p class="admin-etiqueta">Roles</p><h2>Intermediarios</h2></div>
+                <div id="lista-intermediarios" class="admin-lista-simple"></div>
+            </section>
+
+            <section class="admin-tarjeta">
+                <div class="admin-titulo-seccion"><p class="admin-etiqueta">Compras</p><h2>Ordenes</h2></div>
+                <div class="admin-tabla-contenedor">
+                    <table class="admin-tabla">
+                        <thead><tr><th>Orden</th><th>Producto</th><th>Comprador</th><th>Vendedor</th><th>Estado</th><th>Precio</th></tr></thead>
+                        <tbody id="lista-ordenes"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="admin-tarjeta">
+                <div class="admin-titulo-seccion"><p class="admin-etiqueta">Problemas</p><h2>Disputas</h2></div>
+                <div id="lista-disputas" class="admin-lista-simple"></div>
+            </section>
+
+            <section class="admin-tarjeta">
+                <div class="admin-titulo-seccion"><p class="admin-etiqueta">Seguridad</p><h2>Registro de acciones</h2></div>
+                <div id="lista-auditoria" class="admin-lista-simple"></div>
+            </section>
+
+            <section class="admin-tarjeta">
+                <div class="admin-titulo-seccion">
+                    <div><p class="admin-etiqueta">Catalogo</p><h2>Productos publicados</h2></div>
+                </div>
+                <div class="admin-tabla-contenedor">
+                    <table class="admin-tabla">
+                        <thead>
+                            <tr><th>Producto</th><th>Vendedor</th><th>Precio</th><th>Fecha</th><th>Acciones</th></tr>
+                        </thead>
+                        <tbody id="lista-productos"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
     </main>
 
-    <script src="js/admin.js?v=1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/admin.js?v=4"></script>
 </body>
 </html>

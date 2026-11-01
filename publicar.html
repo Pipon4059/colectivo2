@@ -4,68 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El colectivo | Publicar producto</title>
-    <link rel="stylesheet" href="css/styles.css?v=9">
+    <link rel="stylesheet" href="css/styles.css?v=18">
 </head>
-<body>
-    <header class="bg-primary flex header">
-        <div class="width header-in">
-            <a href="index.php">
-                <img width="100" src="img/elcolectivo-logo.png" alt="El colectivo">
-            </a>
-            <a class="logout-nav" href="index.php">Volver al inicio</a>
-        </div>
+<body class="publicar-body">
+    <header class="publicar-header">
+        <a href="index.html"><img src="img/elcolectivo-logo.png" alt="El colectivo"></a>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="usuario.html">Mi cuenta</a>
+            <a class="publicar-salir" href="backend/logout.php">Cerrar sesion</a>
+        </nav>
     </header>
 
-    <main class="publicar-container">
-        <section class="publicar-formulario">
-            <h1>Publicar un producto</h1>
-            <p>Completa los datos del producto que quieres vender.</p>
+    <main id="publicar-pagina" class="publicar-pagina">
+        <section class="publicar-presentacion">
+            <p class="publicar-etiqueta">Nueva publicacion</p>
+            <h1>Publica tu producto</h1>
+            <p>Completa los datos del producto.</p>
 
+            <div class="publicar-vista-previa">
+                <img id="vista-imagen" src="img/test-producto.jpg" alt="Vista previa del producto">
+                <p>Vista previa de la imagen</p>
+            </div>
+
+        </section>
+
+        <section class="publicar-formulario publicar-formulario-mejorado">
+            <h2>Datos del producto</h2>
             <p id="mensaje-publicar" class="mensaje mensaje-error"></p>
 
             <form action="backend/publicar.php" method="POST" enctype="multipart/form-data">
                 <label for="nombre">Nombre del producto</label>
-                <input type="text" name="nombre" id="nombre" required>
+                <input type="text" name="nombre" id="nombre" maxlength="120" required>
 
                 <label for="descripcion">Descripcion</label>
-                <textarea name="descripcion" id="descripcion" rows="5" required></textarea>
+                <textarea name="descripcion" id="descripcion" rows="5" maxlength="500" required></textarea>
 
-                <label for="precio">Precio</label>
-                <input type="number" name="precio" id="precio" min="1" step="0.01" required>
+                <div class="publicar-fila">
+                    <div>
+                        <label for="precio">Precio</label>
+                        <input type="number" name="precio" id="precio" min="1" step="0.01" required>
+                    </div>
+                    <div>
+                        <label for="categoria">Categoria</label>
+                        <select name="categoria" id="categoria" required>
+                            <option value="">Selecciona una categoria</option>
+                            <option value="1">Camisetas</option>
+                            <option value="2">Pelotas</option>
+                            <option value="3">Figuritas</option>
+                            <option value="4">Botines</option>
+                            <option value="5">Otros</option>
+                        </select>
+                    </div>
+                </div>
 
-                <label for="categoria">Categoria</label>
-                <select name="categoria" id="categoria" required>
-                    <option value="">Selecciona una categoria</option>
-                    <option value="1">Camisetas</option>
-                    <option value="2">Pelotas</option>
-                    <option value="3">Figuritas</option>
-                    <option value="4">Botines</option>
-                    <option value="5">Otros</option>
-                </select>
+                <div class="publicar-fila">
+                    <div>
+                        <label for="estado_conservacion">Estado de conservacion</label>
+                        <select name="estado_conservacion" id="estado_conservacion" required>
+                            <option value="">Seleccionar</option>
+                            <option value="Nuevo">Nuevo</option>
+                            <option value="Muy bueno">Muy bueno</option>
+                            <option value="Bueno">Bueno</option>
+                            <option value="Regular">Regular</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="certificado">Certificado de autenticidad</label>
+                        <input type="text" name="certificado" id="certificado" placeholder="Opcional">
+                    </div>
+                </div>
 
-                <label for="imagen">Imagen del producto</label>
-                <input type="file" name="imagen" id="imagen" accept="image/jpeg,image/png,image/webp" required>
+                <label for="imagen">Imagenes del producto</label>
+                <input type="file" name="imagenes[]" id="imagen" accept="image/jpeg,image/png,image/webp" multiple required>
+                <small>Puedes elegir varias. Formatos permitidos: JPG, PNG o WEBP.</small>
 
                 <button type="submit" class="login-btn">Publicar producto</button>
             </form>
         </section>
     </main>
 
-    <script>
-        const parametros = new URLSearchParams(window.location.search);
-        const mensaje = document.getElementById('mensaje-publicar');
-
-        if (parametros.get('error') == 'faltan-datos') {
-            mensaje.textContent = 'Completa todos los campos.';
-        }
-
-        if (parametros.get('error') == 'precio-invalido') {
-            mensaje.textContent = 'El precio debe ser un numero mayor que cero.';
-        }
-
-        if (parametros.get('error') == 'imagen-invalida') {
-            mensaje.textContent = 'Selecciona una imagen JPG, PNG o WEBP.';
-        }
-    </script>
+    <script src="js/publicar.js?v=2"></script>
 </body>
 </html>

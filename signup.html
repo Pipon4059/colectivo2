@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El colectivo | Registro</title>
-    <link rel="stylesheet" href="css/styles.css?v=7">
+    <link rel="stylesheet" href="css/styles.css?v=18">
 </head>
 <body>
     <main class="main-login signup">
@@ -12,7 +12,7 @@
             <div>
                 <img src="img/elcolectivo-logo.png" alt="El colectivo Logo" class="logo">
                 <h2>Bienvenid@ a el colectivo</h2>
-                <p style="max-width: 500px; color: #d4d4d4;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium fuga impedit eum sed facere. Dolorum perferendis architecto veritatis quasi vel.</p>
+                <p style="max-width: 500px; color: #d4d4d4;">Crea tu cuenta para comprar o publicar.</p>
                 <br><p class="subtitle">Creá una cuenta para continuar</p>
             </div>
         </section>
@@ -26,6 +26,11 @@
                     <input type="email" name="email" placeholder="Correo electronico" id="email" required>
                     <input type="tel" name="telefono" placeholder="Telefono" id="telefono" inputmode="numeric">
                     <input type="password" name="contrasena" placeholder="Contraseña" id="contrasena" minlength="6" required>
+                    <select name="tipo" id="tipo" required>
+                        <option value="ambos">Quiero comprar y vender</option>
+                        <option value="comprador">Solo quiero comprar</option>
+                        <option value="vendedor">Solo quiero vender</option>
+                    </select>
                     <div class="signup-row">
                         <input type="text" name="calle" placeholder="Calle" id="calle">
                         <input type="text" name="numero" placeholder="Numero" id="numero">

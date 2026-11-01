@@ -1,6 +1,6 @@
 <?php
-session_start();
+require_once 'iniciar-sesion.php';
 session_destroy();
 
-header('Location: ../index.php');
+header('Location: ../index.html');
 exit;

@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once 'iniciar-sesion.php';
 
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: ../login.html');
@@ -12,9 +12,11 @@ $nombre = trim($_POST['nombre'] ?? '');
 $descripcion = trim($_POST['descripcion'] ?? '');
 $precio = $_POST['precio'] ?? '';
 $categoria = $_POST['categoria'] ?? '';
-$imagen = $_FILES['imagen'] ?? null;
+$estadoConservacion = trim($_POST['estado_conservacion'] ?? '');
+$certificado = trim($_POST['certificado'] ?? '');
+$imagenes = $_FILES['imagenes'] ?? null;
 
-if ($nombre == '' || $descripcion == '' || $precio == '' || $categoria == '') {
+if ($nombre == '' || $descripcion == '' || $precio == '' || $categoria == '' || $estadoConservacion == '') {
     header('Location: ../publicar.html?error=faltan-datos');
     exit;
 }
@@ -24,29 +26,39 @@ if (!is_numeric($precio) || $precio <= 0) {
     exit;
 }
 
-if ($imagen == null || $imagen['error'] != 0) {
-    header('Location: ../publicar.html?error=imagen-invalida');
-    exit;
-}
-
-$extension = strtolower(pathinfo($imagen['name'], PATHINFO_EXTENSION));
-$extensionesPermitidas = ['jpg', 'jpeg', 'png', 'webp'];
-
-if (!in_array($extension, $extensionesPermitidas) || getimagesize($imagen['tmp_name']) == false) {
-    header('Location: ../publicar.html?error=imagen-invalida');
-    exit;
-}
-
-$nombreImagen = time() . '_' . rand(1000, 9999) . '.' . $extension;
-$rutaCarpeta = '../img/productos/';
-$rutaCompleta = $rutaCarpeta . $nombreImagen;
-
-if (!move_uploaded_file($imagen['tmp_name'], $rutaCompleta)) {
-    header('Location: ../publicar.html?error=imagen-invalida');
-    exit;
-}
-
 $pdo = db();
+
+$buscarTipo = $pdo->prepare("SELECT tipo FROM clientes WHERE id_cop = ?");
+$buscarTipo->execute([$_SESSION['usuario_id']]);
+$cliente = $buscarTipo->fetch();
+if (!$cliente || $cliente['tipo'] == 'comprador') {
+    header('Location: ../publicar.html?error=sin-permiso');
+    exit;
+}
+
+$buscarCategoria = $pdo->prepare("SELECT id_categoria FROM categorias WHERE id_categoria = ?");
+$buscarCategoria->execute([$categoria]);
+
+if (!$buscarCategoria->fetch()) {
+    header('Location: ../publicar.html?error=faltan-datos');
+    exit;
+}
+
+if ($imagenes == null || $imagenes['error'][0] != 0) {
+    header('Location: ../publicar.html?error=imagen-invalida');
+    exit;
+}
+
+$extensionesPermitidas = ['jpg', 'jpeg', 'png', 'webp'];
+$rutaCarpeta = '../img/productos/';
+
+for ($i = 0; $i < count($imagenes['name']); $i++) {
+    $extension = strtolower(pathinfo($imagenes['name'][$i], PATHINFO_EXTENSION));
+    if (!in_array($extension, $extensionesPermitidas) || getimagesize($imagenes['tmp_name'][$i]) == false) {
+        header('Location: ../publicar.html?error=imagen-invalida');
+        exit;
+    }
+}
 
 $guardarPublicacion = $pdo->prepare(
     "INSERT INTO publicaciones (descripcion, id_cop) VALUES (?, ?)"
@@ -60,26 +72,31 @@ $idPublicacion = $pdo->lastInsertId();
 
 
 $guardarProducto = $pdo->prepare(
-    "INSERT INTO productos (nombre, descripcion, precio, id_publi, id_categoria)
-    VALUES (?, ?, ?, ?, ?)"
+    "INSERT INTO productos (nombre, descripcion, precio, id_publi, id_categoria,
+    estado_conservacion, certificado) VALUES (?, ?, ?, ?, ?, ?, ?)"
 );
 $guardarProducto->execute([
     $nombre,
     $descripcion,
     $precio,
     $idPublicacion,
-    $categoria
+    $categoria,
+    $estadoConservacion,
+    $certificado
 ]);
 
 $idProducto = $pdo->lastInsertId();
 
-$guardarImagen = $pdo->prepare(
-    "INSERT INTO imagenes (id_producto, imagen) VALUES (?, ?)"
-);
-$guardarImagen->execute([
-    $idProducto,
-    'productos/' . $nombreImagen
-]);
+for ($i = 0; $i < count($imagenes['name']); $i++) {
+    $extension = strtolower(pathinfo($imagenes['name'][$i], PATHINFO_EXTENSION));
+    $nombreImagen = time() . '_' . $i . '_' . rand(1000, 9999) . '.' . $extension;
+    $rutaCompleta = $rutaCarpeta . $nombreImagen;
 
-header('Location: ../index.php?publicado=si');
+    if (move_uploaded_file($imagenes['tmp_name'][$i], $rutaCompleta)) {
+        $guardarImagen = $pdo->prepare("INSERT INTO imagenes (id_producto, imagen) VALUES (?, ?)");
+        $guardarImagen->execute([$idProducto, 'productos/' . $nombreImagen]);
+    }
+}
+
+header('Location: ../usuario.html?publicado=si');
 exit;

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El colectivo | Acceso intermediario</title>
+    <link rel="stylesheet" href="css/styles.css?v=18">
+</head>
+<body>
+    <main class="main-login">
+        <section class="login-right">
+            <div>
+                <img src="img/elcolectivo-logo.png" alt="El colectivo" class="logo">
+                <h2>Intermediarios</h2>
+                <p class="subtitle">Verificacion de productos enviados.</p>
+            </div>
+        </section>
+        <section class="login-form">
+            <div class="login-content">
+                <h2>Iniciar sesion</h2>
+                <p id="mensaje-intermediario" class="mensaje"></p>
+                <form action="backend/intermediario-login.php" method="POST">
+                    <input type="email" name="email" placeholder="Correo" required>
+                    <input type="password" name="password" placeholder="Contraseña" required>
+                    <button type="submit" class="login-btn">Ingresar</button>
+                </form>
+                <a href="login.html">Volver</a>
+            </div>
+        </section>
+    </main>
+    <script>
+        const error = new URLSearchParams(window.location.search).get('error');
+        if (error) {
+            const mensaje = document.getElementById('mensaje-intermediario');
+            mensaje.textContent = 'Correo o contraseña incorrectos.';
+            mensaje.classList.add('mensaje-error');
+        }
+    </script>
+</body>
+</html>

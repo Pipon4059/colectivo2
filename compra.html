@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El colectivo | Compra simulada</title>
+    <link rel="stylesheet" href="css/styles.css?v=18">
+</head>
+<body class="compra-body">
+    <header class="compra-header">
+        <a href="index.html"><img src="img/elcolectivo-logo.png" alt="El colectivo"></a>
+        <a href="index.html">Volver al catalogo</a>
+    </header>
+
+    <main id="compra-pagina" class="compra-pagina">
+        <section class="compra-resumen">
+            <p class="compra-etiqueta">Resumen</p>
+            <h1>Compra simulada</h1>
+            <p class="compra-aviso">Este proyecto no realiza cobros reales.</p>
+
+            <img id="compra-imagen" src="img/test-producto.jpg" alt="Producto elegido">
+            <h2 id="compra-nombre">Cargando producto...</h2>
+            <p id="compra-descripcion"></p>
+            <p id="compra-vendedor"></p>
+            <strong id="compra-precio"></strong>
+        </section>
+
+        <section class="compra-formulario-contenedor">
+            <h2>Datos para la compra</h2>
+            <p>Datos de entrega.</p>
+
+            <p id="compra-mensaje" class="compra-mensaje"></p>
+
+            <form id="form-compra">
+                <input type="hidden" name="id_producto" id="compra-id">
+
+                <label for="compra-direccion">Direccion de entrega</label>
+                <input type="text" name="direccion" id="compra-direccion" required>
+
+                <label for="compra-pago">Forma de pago simulada</label>
+                <select name="pago" id="compra-pago" required>
+                    <option value="">Seleccionar</option>
+                    <option value="efectivo">Efectivo al recibir</option>
+                    <option value="transferencia">Transferencia simulada</option>
+                </select>
+
+                <button type="submit">Confirmar compra simulada</button>
+            </form>
+        </section>
+    </main>
+
+    <script src="js/compra.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El colectivo | Panel intermediario</title>
+    <link rel="stylesheet" href="css/styles.css?v=18">
+</head>
+<body class="admin-body">
+    <main id="panel-intermediario" class="admin-dashboard">
+        <header class="admin-header">
+            <a href="index.html"><img src="img/elcolectivo-logo.png" alt="El colectivo"></a>
+            <nav class="admin-nav">
+                <a href="index.html">Ver sitio</a>
+                <a class="admin-salir" href="backend/intermediario-logout.php">Cerrar sesion</a>
+            </nav>
+        </header>
+        <div class="admin-principal">
+            <section class="admin-bienvenida">
+                <p class="admin-etiqueta">Intermediario</p>
+                <h1>Hola, <span id="nombre-intermediario"></span></h1>
+                <p>Revisa los productos que fueron enviados.</p>
+            </section>
+            <p id="mensaje-intermediario-panel" class="admin-mensaje"></p>
+            <section class="admin-tarjeta">
+                <h2>Ordenes para verificar</h2>
+                <div id="ordenes-verificar" class="intermediario-lista"></div>
+            </section>
+        </div>
+    </main>
+    <script src="js/intermediario.js?v=1"></script>
+</body>
+</html>
