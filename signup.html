@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,7 @@
         <section class="login-form">
             <div class="login-content">
                 <h2><span class="color-2">El</span>Colectivo</h2>
-                <p id="mensaje-registro" class="mensaje"></p>
+                <p id="mensaje-registro" class="mensaje" role="alert" aria-live="polite"></p>
                 <p>Ya tienes una cuenta? <a href="login.html">Inicia sesión ahora!</a></p>
                 <form id="form-registro" action="backend/signup.php" method="POST" novalidate>
                     <input type="text" name="nombre" placeholder="Nombre" id="nombre" required>

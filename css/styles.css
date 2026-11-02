@@ -115,7 +115,7 @@ h1, h2 {
 
 .login-content a {
     display: block;
-    color: var(--color-amarillo);
+    color: #846300;
     text-decoration: underline;
 }
 
@@ -1025,7 +1025,7 @@ h1, h2 {
 
 .vendedor {
     font-size: 14px;
-    color: #999;
+    color: #666;
     margin-bottom: 5px;
 }
 
@@ -1033,7 +1033,17 @@ h1, h2 {
 .precio {
     font-size: 18px;
     font-weight: bold;
-    color: #35f880;
+    color: #176b3a;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid #005fcc;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 2px white;
 }
 
 .producto-comprar {
