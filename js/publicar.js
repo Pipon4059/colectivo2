@@ -30,6 +30,10 @@ if (parametros.get('error') == 'imagen-invalida') {
     mensaje.textContent = 'Selecciona una imagen JPG, PNG o WEBP.';
 }
 
+if (parametros.get('error') == 'imagen-grande') {
+    mensaje.textContent = 'Cada imagen puede pesar hasta 5 MB.';
+}
+
 if (parametros.get('error') == 'sin-permiso') {
     mensaje.textContent = 'Tu cuenta es solo compradora. Cambia el tipo de cuenta para publicar.';
 }

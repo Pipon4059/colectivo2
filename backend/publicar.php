@@ -51,8 +51,19 @@ if ($imagenes == null || $imagenes['error'][0] != 0) {
 
 $extensionesPermitidas = ['jpg', 'jpeg', 'png', 'webp'];
 $rutaCarpeta = '../img/productos/';
+$tamanoMaximo = 5 * 1024 * 1024;
 
 for ($i = 0; $i < count($imagenes['name']); $i++) {
+    if ($imagenes['error'][$i] != 0) {
+        header('Location: ../publicar.html?error=imagen-invalida');
+        exit;
+    }
+
+    if ($imagenes['size'][$i] > $tamanoMaximo) {
+        header('Location: ../publicar.html?error=imagen-grande');
+        exit;
+    }
+
     $extension = strtolower(pathinfo($imagenes['name'][$i], PATHINFO_EXTENSION));
     if (!in_array($extension, $extensionesPermitidas) || getimagesize($imagenes['tmp_name'][$i]) == false) {
         header('Location: ../publicar.html?error=imagen-invalida');
