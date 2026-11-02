@@ -32,10 +32,22 @@ function mostrarOrdenes(ordenes) {
     ordenes.forEach(function (orden) {
         const tarjeta = document.createElement('article');
         tarjeta.className = 'intermediario-item';
-        tarjeta.innerHTML = '<h3>Orden #' + orden.id_orden + ' - ' + orden.producto + '</h3>' +
-            '<p>Vendedor: ' + orden.vendedor + '</p>' +
-            '<p>Comprador: ' + orden.comprador + '</p>' +
-            '<p>Seguimiento: ' + (orden.codigo_seguimiento || '-') + '</p>';
+
+        const titulo = document.createElement('h3');
+        titulo.textContent = 'Orden #' + orden.id_orden + ' - ' + orden.producto;
+        tarjeta.appendChild(titulo);
+
+        const vendedor = document.createElement('p');
+        vendedor.textContent = 'Vendedor: ' + orden.vendedor;
+        tarjeta.appendChild(vendedor);
+
+        const comprador = document.createElement('p');
+        comprador.textContent = 'Comprador: ' + orden.comprador;
+        tarjeta.appendChild(comprador);
+
+        const seguimiento = document.createElement('p');
+        seguimiento.textContent = 'Seguimiento: ' + (orden.codigo_seguimiento || '-');
+        tarjeta.appendChild(seguimiento);
 
         const observacion = document.createElement('textarea');
         observacion.placeholder = 'Observacion de la verificacion';

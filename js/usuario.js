@@ -225,11 +225,28 @@ function mostrarOrdenes(ordenes, idContenedor, tipo) {
     ordenes.forEach(function (orden) {
         const tarjeta = document.createElement('article');
         tarjeta.className = 'usuario-orden-item';
-        tarjeta.innerHTML = '<h3>Orden #' + orden.id_orden + ' - ' + orden.producto + '</h3>' +
-            '<p>' + (tipo == 'compra' ? 'Vendedor: ' : 'Comprador: ') + orden.otra_persona + '</p>' +
-            '<p>Precio: $' + Number(orden.precio_unitario).toLocaleString('es-UY') + '</p>' +
-            '<p>Estado: <strong>' + nombreEstado(orden.estado) + '</strong></p>' +
-            (orden.codigo_seguimiento ? '<p>Seguimiento: ' + orden.codigo_seguimiento + '</p>' : '');
+
+        const titulo = document.createElement('h3');
+        titulo.textContent = 'Orden #' + orden.id_orden + ' - ' + orden.producto;
+        tarjeta.appendChild(titulo);
+
+        const persona = document.createElement('p');
+        persona.textContent = (tipo == 'compra' ? 'Vendedor: ' : 'Comprador: ') + orden.otra_persona;
+        tarjeta.appendChild(persona);
+
+        const precio = document.createElement('p');
+        precio.textContent = 'Precio: $' + Number(orden.precio_unitario).toLocaleString('es-UY');
+        tarjeta.appendChild(precio);
+
+        const estado = document.createElement('p');
+        estado.textContent = 'Estado: ' + nombreEstado(orden.estado);
+        tarjeta.appendChild(estado);
+
+        if (orden.codigo_seguimiento) {
+            const seguimiento = document.createElement('p');
+            seguimiento.textContent = 'Seguimiento: ' + orden.codigo_seguimiento;
+            tarjeta.appendChild(seguimiento);
+        }
 
         if (tipo == 'venta' && orden.estado == 'pagado') {
             const enviar = crearBoton('Marcar enviado', 'usuario-btn-editar');

@@ -133,7 +133,19 @@ function mostrarDisputas(disputas) {
     disputas.forEach(function (disputa) {
         const item = document.createElement('article');
         item.className = 'admin-item-simple';
-        item.innerHTML = '<strong>Orden #' + disputa.id_orden + '</strong><p>' + disputa.motivo + '</p><p>Estado: ' + disputa.estado + '</p>';
+
+        const titulo = document.createElement('strong');
+        titulo.textContent = 'Orden #' + disputa.id_orden;
+        item.appendChild(titulo);
+
+        const motivo = document.createElement('p');
+        motivo.textContent = disputa.motivo;
+        item.appendChild(motivo);
+
+        const estado = document.createElement('p');
+        estado.textContent = 'Estado: ' + disputa.estado;
+        item.appendChild(estado);
+
         if (disputa.estado == 'abierta') {
             const reembolsar = crearBoton('Reembolsar', 'admin-btn-eliminar');
             const liberar = crearBoton('Liberar pago', 'admin-btn-editar');
