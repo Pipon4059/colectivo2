@@ -12,7 +12,7 @@ require 'db.php';
 $pdo = db();
 
 $consulta = $pdo->query("SELECT ordenes.id_orden, ordenes.estado, ordenes.fecha,
-    ordenes.codigo_seguimiento, productos.nombre AS producto,
+    ordenes.codigo_seguimiento, ordenes.direccion, productos.nombre AS producto,
     comprador.nombre AS comprador, vendedor.nombre AS vendedor
     FROM ordenes
     JOIN detalle_orden ON ordenes.id_orden = detalle_orden.id_orden

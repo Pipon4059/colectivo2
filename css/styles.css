@@ -1115,11 +1115,19 @@ textarea:focus-visible {
     cursor: pointer;
 }
 
-.intermediario-item textarea {
+.intermediario-item textarea,
+.intermediario-item input {
     width: 100%;
-    min-height: 80px;
     padding: 10px;
     font: inherit;
+}
+
+.intermediario-item textarea {
+    min-height: 80px;
+}
+
+.intermediario-item input {
+    margin: 8px 0;
 }
 
 .compra-body {

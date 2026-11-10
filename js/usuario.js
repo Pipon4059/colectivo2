@@ -3,6 +3,7 @@ const mensajeUsuario = document.getElementById('mensaje-usuario');
 const formularioPerfil = document.getElementById('form-perfil');
 const formularioProducto = document.getElementById('form-producto');
 const seccionEditarProducto = document.getElementById('editar-producto');
+const direccionCentro = 'Centro de verificacion de El Colectivo - Av. Italia 1234, Montevideo';
 
 let productosGuardados = [];
 
@@ -244,11 +245,20 @@ function mostrarOrdenes(ordenes, idContenedor, tipo) {
 
         if (orden.codigo_seguimiento) {
             const seguimiento = document.createElement('p');
-            seguimiento.textContent = 'Seguimiento: ' + orden.codigo_seguimiento;
+            seguimiento.textContent = 'Seguimiento hasta el intermediario: ' + orden.codigo_seguimiento;
             tarjeta.appendChild(seguimiento);
         }
 
+        if (orden.codigo_seguimiento_comprador) {
+            const seguimientoComprador = document.createElement('p');
+            seguimientoComprador.textContent = 'Seguimiento hasta el comprador: ' + orden.codigo_seguimiento_comprador;
+            tarjeta.appendChild(seguimientoComprador);
+        }
+
         if (tipo == 'venta' && orden.estado == 'pagado') {
+            const destino = document.createElement('p');
+            destino.textContent = 'Enviar a: ' + direccionCentro;
+            tarjeta.appendChild(destino);
             const enviar = crearBoton('Marcar enviado', 'usuario-btn-editar');
             enviar.addEventListener('click', function () { marcarEnviado(orden.id_orden); });
             tarjeta.appendChild(enviar);
@@ -283,6 +293,7 @@ function nombreEstado(estado) {
 async function marcarEnviado(idOrden) {
     const resultado = await Swal.fire({
         title: 'Marcar como enviado',
+        text: 'Envia el producto a: ' + direccionCentro,
         input: 'text',
         inputLabel: 'Codigo de seguimiento',
         inputPlaceholder: 'Ejemplo: ENVIO-123',

@@ -77,7 +77,7 @@ formularioCompra.addEventListener('submit', function (evento) {
             formularioCompra.style.display = 'none';
         })
         .catch(function () {
-            mostrarError('No se pudo realizar la compra simulada.');
+            mostrarError('No se pudo realizar la compra.');
         });
 });
 

@@ -16,7 +16,7 @@ if ($idProducto == '' || $direccion == '' || $pago == '') {
     exit;
 }
 
-if ($pago != 'efectivo' && $pago != 'transferencia') {
+if ($pago != 'transferencia' && $pago != 'tarjeta') {
     echo json_encode(['error' => 'La forma de pago no es valida.']);
     exit;
 }
@@ -73,9 +73,9 @@ try {
     $marcarVendido = $pdo->prepare("UPDATE productos SET disponible = 0 WHERE id_producto = ?");
     $marcarVendido->execute([$producto['id_producto']]);
 
-    notificar($pdo, $_SESSION['usuario_id'], 'Tu pago simulado quedo retenido. Orden #' . $idOrden);
+    notificar($pdo, $_SESSION['usuario_id'], 'Tu pago quedo retenido. Orden #' . $idOrden);
     notificar($pdo, $producto['vendedor_id'], 'Vendiste ' . $producto['nombre'] . '. Debes marcar el envio.');
-    auditar($pdo, $_SESSION['usuario_id'], 'Compra simulada creada. Orden #' . $idOrden);
+    auditar($pdo, $_SESSION['usuario_id'], 'Compra creada. Orden #' . $idOrden);
 
     $pdo->commit();
 } catch (Exception $error) {
@@ -89,5 +89,5 @@ try {
 echo json_encode([
     'correcto' => true,
     'orden' => $idOrden,
-    'mensaje' => 'El pago simulado quedo retenido.'
+    'mensaje' => 'El pago quedo retenido.'
 ]);

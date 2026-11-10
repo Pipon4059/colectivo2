@@ -46,15 +46,28 @@ function mostrarOrdenes(ordenes) {
         tarjeta.appendChild(comprador);
 
         const seguimiento = document.createElement('p');
-        seguimiento.textContent = 'Seguimiento: ' + (orden.codigo_seguimiento || '-');
+        seguimiento.textContent = 'Seguimiento hasta el centro: ' + (orden.codigo_seguimiento || '-');
         tarjeta.appendChild(seguimiento);
+
+        const direccion = document.createElement('p');
+        direccion.textContent = 'Enviar al comprador en: ' + orden.direccion;
+        tarjeta.appendChild(direccion);
+
+        const seguimientoComprador = document.createElement('input');
+        seguimientoComprador.type = 'text';
+        seguimientoComprador.placeholder = 'Seguimiento del envio al comprador';
+        tarjeta.appendChild(seguimientoComprador);
 
         const observacion = document.createElement('textarea');
         observacion.placeholder = 'Observacion de la verificacion';
-        const aprobar = crearBotonIntermediario('Aprobar', 'admin-btn-primario');
+        const aprobar = crearBotonIntermediario('Aprobar y enviar al comprador', 'admin-btn-primario');
         const rechazar = crearBotonIntermediario('Rechazar', 'admin-btn-eliminar');
-        aprobar.addEventListener('click', function () { verificar(orden.id_orden, 'aprobado', observacion.value); });
-        rechazar.addEventListener('click', function () { verificar(orden.id_orden, 'rechazado', observacion.value); });
+        aprobar.addEventListener('click', function () {
+            verificar(orden.id_orden, 'aprobado', observacion.value, seguimientoComprador.value);
+        });
+        rechazar.addEventListener('click', function () {
+            verificar(orden.id_orden, 'rechazado', observacion.value, '');
+        });
         tarjeta.appendChild(observacion);
         tarjeta.appendChild(aprobar);
         tarjeta.appendChild(rechazar);
@@ -70,11 +83,12 @@ function crearBotonIntermediario(texto, clase) {
     return boton;
 }
 
-function verificar(idOrden, resultado, observacion) {
+function verificar(idOrden, resultado, observacion, seguimientoComprador) {
     const datos = new FormData();
     datos.append('id_orden', idOrden);
     datos.append('resultado', resultado);
     datos.append('observacion', observacion);
+    datos.append('seguimiento_comprador', seguimientoComprador);
 
     fetch('backend/intermediario-verificar.php', { method: 'POST', body: datos })
         .then(function (respuesta) { return respuesta.json(); })

@@ -27,7 +27,7 @@ if (!$orden) {
 
 $actualizar = $pdo->prepare("UPDATE ordenes SET estado = 'liberado' WHERE id_orden = ?");
 $actualizar->execute([$idOrden]);
-notificar($pdo, $orden['vendedor_id'], 'El comprador confirmo la orden #' . $idOrden . '. Pago simulado liberado.');
+notificar($pdo, $orden['vendedor_id'], 'El comprador confirmo la orden #' . $idOrden . '. Pago liberado.');
 auditar($pdo, $_SESSION['usuario_id'], 'Recepcion confirmada. Orden #' . $idOrden);
 
-echo json_encode(['correcto' => true, 'mensaje' => 'Recepcion confirmada y pago simulado liberado.']);
+echo json_encode(['correcto' => true, 'mensaje' => 'Recepcion confirmada y pago liberado.']);

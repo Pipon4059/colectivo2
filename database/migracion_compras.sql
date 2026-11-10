@@ -14,8 +14,9 @@ UPDATE ordenes SET estado = 'cancelado' WHERE estado = 'cancelada';
 ALTER TABLE ordenes MODIFY estado ENUM('pagado', 'enviado', 'en_verificacion', 'verificado',
     'liberado', 'en_disputa', 'reembolsado', 'cancelado') NOT NULL DEFAULT 'pagado';
 ALTER TABLE ordenes ADD COLUMN IF NOT EXISTS direccion VARCHAR(200) NOT NULL DEFAULT 'Sin direccion';
-ALTER TABLE ordenes ADD COLUMN IF NOT EXISTS medio_pago VARCHAR(30) NOT NULL DEFAULT 'simulado';
+ALTER TABLE ordenes ADD COLUMN IF NOT EXISTS medio_pago VARCHAR(30) NOT NULL DEFAULT 'sin_definir';
 ALTER TABLE ordenes ADD COLUMN IF NOT EXISTS codigo_seguimiento VARCHAR(100) NULL;
+ALTER TABLE ordenes ADD COLUMN IF NOT EXISTS codigo_seguimiento_comprador VARCHAR(100) NULL;
 
 CREATE TABLE IF NOT EXISTS intermediarios (
     id_cop INT UNSIGNED PRIMARY KEY,

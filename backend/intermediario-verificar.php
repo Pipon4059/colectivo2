@@ -10,9 +10,15 @@ if (!isset($_SESSION['intermediario_id'])) {
 $idOrden = $_POST['id_orden'] ?? '';
 $resultado = $_POST['resultado'] ?? '';
 $observacion = trim($_POST['observacion'] ?? '');
+$seguimientoComprador = trim($_POST['seguimiento_comprador'] ?? '');
 
 if ($resultado != 'aprobado' && $resultado != 'rechazado') {
     echo json_encode(['correcto' => false, 'mensaje' => 'Selecciona un resultado valido.']);
+    exit;
+}
+
+if ($resultado == 'aprobado' && $seguimientoComprador == '') {
+    echo json_encode(['correcto' => false, 'mensaje' => 'Ingresa el seguimiento del envio al comprador.']);
     exit;
 }
 
@@ -40,7 +46,7 @@ $guardar->execute([$idOrden, $_SESSION['intermediario_id'], $resultado, $observa
 
 if ($resultado == 'aprobado') {
     $nuevoEstado = 'verificado';
-    $mensaje = 'La orden #' . $idOrden . ' fue verificada. Confirma cuando la recibas.';
+    $mensaje = 'La orden #' . $idOrden . ' fue verificada y enviada al comprador. Seguimiento: ' . $seguimientoComprador;
 } else {
     $nuevoEstado = 'en_disputa';
     $mensaje = 'La orden #' . $idOrden . ' fue rechazada y paso a disputa.';
@@ -49,8 +55,8 @@ if ($resultado == 'aprobado') {
     $crearDisputa->execute([$idOrden, $motivo]);
 }
 
-$actualizar = $pdo->prepare("UPDATE ordenes SET estado = ? WHERE id_orden = ?");
-$actualizar->execute([$nuevoEstado, $idOrden]);
+$actualizar = $pdo->prepare("UPDATE ordenes SET estado = ?, codigo_seguimiento_comprador = ? WHERE id_orden = ?");
+$actualizar->execute([$nuevoEstado, $resultado == 'aprobado' ? $seguimientoComprador : null, $idOrden]);
 notificar($pdo, $orden['comprador_id'], $mensaje);
 notificar($pdo, $orden['vendedor_id'], $mensaje);
 auditar($pdo, $_SESSION['intermediario_id'], 'Verificacion ' . $resultado . '. Orden #' . $idOrden);

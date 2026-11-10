@@ -101,6 +101,7 @@ CREATE TABLE ordenes (
     direccion VARCHAR(200) NOT NULL,
     medio_pago VARCHAR(30) NOT NULL,
     codigo_seguimiento VARCHAR(100) NULL,
+    codigo_seguimiento_comprador VARCHAR(100) NULL,
     CONSTRAINT fk_orden_cliente FOREIGN KEY (id_cop)
         REFERENCES clientes(id_cop)
 ) ENGINE=InnoDB;

@@ -33,7 +33,8 @@ $buscarProductos->execute([$idUsuario]);
 $productos = $buscarProductos->fetchAll();
 
 $buscarCompras = $pdo->prepare("SELECT ordenes.id_orden, ordenes.estado, ordenes.fecha,
-    ordenes.codigo_seguimiento, productos.nombre AS producto, detalle_orden.precio_unitario,
+    ordenes.codigo_seguimiento, ordenes.codigo_seguimiento_comprador,
+    productos.nombre AS producto, detalle_orden.precio_unitario,
     vendedor.nombre AS otra_persona,
     (SELECT COUNT(*) FROM calificaciones WHERE id_orden = ordenes.id_orden AND id_autor = ?) AS calificada
     FROM ordenes
@@ -45,7 +46,8 @@ $buscarCompras = $pdo->prepare("SELECT ordenes.id_orden, ordenes.estado, ordenes
 $buscarCompras->execute([$idUsuario, $idUsuario]);
 
 $buscarVentas = $pdo->prepare("SELECT ordenes.id_orden, ordenes.estado, ordenes.fecha,
-    ordenes.codigo_seguimiento, productos.nombre AS producto, detalle_orden.precio_unitario,
+    ordenes.codigo_seguimiento, ordenes.codigo_seguimiento_comprador,
+    productos.nombre AS producto, detalle_orden.precio_unitario,
     comprador.nombre AS otra_persona,
     (SELECT COUNT(*) FROM calificaciones WHERE id_orden = ordenes.id_orden AND id_autor = ?) AS calificada
     FROM ordenes
